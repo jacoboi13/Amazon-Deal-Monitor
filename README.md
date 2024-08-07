@@ -1,7 +1,7 @@
 # Amazon-Deal-Monitor
 
 The Amazon Deal Monitor fetches deals from a third-party source and posts them to Discord webhooks based on configurable filters and categories. This tool is designed for modularity with JSON file-based webhook configurations and advanced deal filtering capabilities.
-<br>
+<br><br>
 ![88n131Jkrh](https://github.com/user-attachments/assets/8e554ee2-ec89-41d5-b5bc-4b3983bf9c31)
 ![olgGOAh553](https://github.com/user-attachments/assets/7667d984-5079-4c6a-9977-bc4c985e6be5)
 ![XaHOKnsOA1](https://github.com/user-attachments/assets/b3a400a1-33a6-4e47-a4de-b9b38e7acf4e)
