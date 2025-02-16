@@ -72,7 +72,7 @@ class AmazonScraper:
             list: ["other_webhook", "price_off", "priority_category", "regular_category", "categories", "webhook", "filters", "webhooks"],
             int: ["average_price_min", "average_price_max", "percent_off_min", "percent_off_max", "color"],
             bool: ["priority", "isolated"],
-            str: ["name", "role", "username", "avatar_url", "author_name", "author_icon_url", "footer", "footer_icon"],
+            str: ["name", "role", "username", "avatar_url", "author_name", "author_icon_url", "footer", "footer_icon", "other_webhook"],
             dict: ["criteria", "embed_data"],
         }
         
@@ -271,14 +271,25 @@ class AmazonScraper:
                         f"Failed to send webhook: {response.status_code} - {response.text}"
                     )
 
-    async def get_deals(
-        self, category: str, price: str, age: str, page: int
-    ) -> Optional[str]:
+    async def get_deals(self, category: str, price: str, age: str, page: int) -> Optional[str]:
         url = f"https://saving.deals/top?page={page}&age={age}&off={price}&categories={category}"
         logging.debug(f"Requesting: {url}")
 
         response = await self.make_request("get", url, self.headers)
-        return response.text if response.status_code == 200 else None
+
+        if response is None:
+            logging.error(f"No response received from {url}")
+            return None
+
+        if not hasattr(response, 'status_code'):
+            logging.error(f"Invalid response object from {url}")
+            return None
+
+        if response.status_code != 200:
+            logging.warning(f"Request to {url} returned status: {response.status_code}")
+            return None
+
+        return response.text
 
     async def parse_deals(self, resp: str) -> List[Dict[str, Any]]:
         try:
